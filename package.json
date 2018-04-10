@@ -1,0 +1,24 @@
+{
+  "name": "alexa-madrid-emt-skill",
+  "version": "0.0.9",
+  "description": "Amazon Alexa skill that provides real time information on Madrid's public transportation",
+  "main": "./src/index.js",
+  "dependencies": {
+    "emt-bus": "^1.0.3"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomasperezv/alexa-madrid-emt-skill.git"
+  },
+  "keywords": [
+    "Alexa",
+    "EMT",
+    "Madrid",
+    "Bus",
+    "Subway",
+    "Train"
+  ],
+  "author": "Tomas Perez <t@0x101.com>",
+  "license": "MIT"
+}
