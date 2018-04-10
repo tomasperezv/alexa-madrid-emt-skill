@@ -29,6 +29,14 @@ function buildResponse(sessionAttributes, speechletResponse) {
   };
 }
 
+function handleSessionEndRequest(callback) { 
+  var cardTitle = "Session Ended";
+  var speechOutput = "Thank you";
+
+  var shouldEndSession = true;
+  callback({}, buildSpeechletResponse(cardTitle, speechOutput, null, shouldEndSession));
+}
+
 /**
  * Called when the session starts.
  */
