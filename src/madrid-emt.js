@@ -15,6 +15,5 @@ module.exports = (callback, buildSpeechletResponse) => {
   const cardTitle = 'Madrid Transport Skill';
   const speechOutput = "Welcome to the Madrid's EMT skill";
 
-  callback(sessionAttributes,
-    buildSpeechletResponse(cardTitle, speechOutput, repromptText, true));
+  callback({}, buildSpeechletResponse(cardTitle, speechOutput, '', true));
 }
