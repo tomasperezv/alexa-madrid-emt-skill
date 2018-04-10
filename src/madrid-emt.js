@@ -2,36 +2,57 @@ const EMT = require('emt-bus')(process.env.EMT_CLIENT_ID, process.env.EMT_KEY);
 const geo = EMT('geo');
 
 /**
- * @param {Number} time
- */
+ *  * @param {Number} time
+ *   */
 const parseTimeLeft = (time) => {
-  return Math.floor(time/60);
+  if (time < 60) {
+    return `${time} seconds`
+  } else {
+    return `${Math.floor(time/60)} minutes`;
+  }
+};
+
+/**
+ *  * @param {Object} result
+ *   */
+const parseBus = (result) => {
+  return {
+    id: result.lineId,
+    timeLeft: parseTimeLeft(result.busTimeLeft)
+  };
+};
+
+const parseResults = (results) => {
+  if (results.length > 0) {
+    const firstBus = parseBus(results[0]);
+    if (results.length > 1) {
+      const secondBus = parseBus(results[1]);
+      return `There are ${results.length} buses incoming: ${firstBus.id} in ${firstBus.timeLeft}, ${secondBus.id} in ${secondBus.timeLeft}`;
+    } else {
+      return `Bus ${firstBus.id} arriving in ${firstBus.timeLeft}`;
+    }
+  } else {
+    return 'There are no incoming buses';
+  }
 };
 
 const cardTitle = 'Madrid Public Transport Skill';
+const idStop = '1350';
 
-module.exports = {
-  welcome: (callback, buildSpeechletResponse) => {
-    const speechOutput = "Welcome to the Madrid's Public Transport skill";
+geo.getArriveStop({ idStop: idStop })
+  .then((data) => {
+    let results = [];
 
-    callback({}, buildSpeechletResponse(cardTitle, speechOutput, '', true));
-  },
-  stopTimes: (callback, buildSpeechletResponse) => {
-    let speechOutput = '';
-
-    geo.getArriveStop({ idStop: '1350' })
-      .then((data) => {
-        const firstBus = {
-          id: data.arrives[0].lineId,
-          timeLeft: parseTimeLeft(data.arrives[0].busTimeLeft)
-        };
-
-        speechOutput = `Bus ${firstBus.id} arriving in ${firstBus.timeLeft}`;
-        callback({}, buildSpeechletResponse(cardTitle, speechOutput, '', true));
-      })
-      .catch((data) => {
-        speechOutput = `I am sorry, error fetching bus stop ${idStop} info`;
-        callback({}, buildSpeechletResponse(cardTitle, speechOutput, '', true));
-      });
-  }
-};
+    if (data.arrives) {
+      results = data.arrives;
+      if (!data.arrives.length) {
+        results = [data.arrives];
+      }
+    }
+    speechOutput = parseResults(results);
+    console.log(speechOutput);
+  })
+  .catch((data) => {
+    speechOutput = `I am sorry, error fetching bus stop ${idStop} info`;
+    console.log(speechOutput);
+  });
