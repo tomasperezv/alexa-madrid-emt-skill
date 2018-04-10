@@ -8,15 +8,15 @@ const parseTimeLeft = (time) => {
   return Math.floor(time/60);
 };
 
+const cardTitle = 'Madrid Public Transport Skill';
+
 module.exports = {
   welcome: (callback, buildSpeechletResponse) => {
-    const cardTitle = 'Madrid Transport Skill';
-    const speechOutput = "Welcome to the Madrid's EMT skill";
+    const speechOutput = "Welcome to the Madrid's Public Transport skill";
 
     callback({}, buildSpeechletResponse(cardTitle, speechOutput, '', true));
   },
   stopTimes: (callback, buildSpeechletResponse) => {
-    const cardTitle = 'Madrid Transport Skill';
     let speechOutput = '';
 
     geo.getArriveStop({ idStop: '1350' })
