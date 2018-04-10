@@ -2,6 +2,12 @@
 
 Amazon Alexa skill that provides real time information on Madrid's public transportation
 
+## Usage
+
+```
+Alexa ask Madrid transport next times for stop {STOP_NUMBER}
+```
+
 ## Data Source
 
 We use Madrid's EMT (public transport org) public APIs to obtain the information about Bus, Subway and Train routes.
