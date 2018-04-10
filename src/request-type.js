@@ -1,5 +1,5 @@
 module.exports = {
   LAUNCH: 'LaunchRequest',
-  INTENT: 'IntentRequest','SessionEndedRequest',
+  INTENT: 'IntentRequest',
   SESSION_ENDED: 'SessionEndedRequest'
 };
