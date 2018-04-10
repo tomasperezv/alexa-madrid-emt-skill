@@ -20,13 +20,13 @@ exports.handler = (event, context, callback) => {
       onLaunch(event.request,
         event.session,
         (sessionAttributes, speechletResponse) => {
-          callback(null, buildResponse(sessionAttributes, speechletResponse));
+          callback(null, Core.buildResponse(sessionAttributes, speechletResponse));
         });
     } else if (event.request.type === RequestType.INTENT) {
       Core.onIntent(event.request,
         event.session,
         (sessionAttributes, speechletResponse) => {
-          callback(null, buildResponse(sessionAttributes, speechletResponse));
+          callback(null, Core.buildResponse(sessionAttributes, speechletResponse));
         });
     } else if (event.request.type === RequestType.SESSION_ENDED) {
       Core.onSessionEnded(event.request, event.session);

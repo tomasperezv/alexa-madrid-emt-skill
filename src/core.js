@@ -77,6 +77,7 @@ function onLaunch(launchRequest, session, callback) {
 }
 
 module.exports = {
+  buildResponse,
   onSessionStarted,
   onSessionEnded,
   onIntent
