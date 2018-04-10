@@ -56,7 +56,7 @@ function onIntent(intentRequest, session, callback) {
 
   // Dispatch to your skill's intent handlers
   if (intentName === 'GetNextTimesForStop') {
-    MadridEMTSkill(callback, buildSpeechletResponse);
+    MadridEMTSkill.stopTimes(callback, buildSpeechletResponse);
   } else if (intentName === 'AMAZON.StopIntent' || intentName === 'AMAZON.CancelIntent') {
     handleSessionEndRequest(callback);
   } else {
@@ -78,7 +78,7 @@ function onSessionEnded(sessionEndedRequest, session) {
 function onLaunch(launchRequest, session, callback) {
   console.log(`onLaunch requestId=${launchRequest.requestId}, sessionId=${session.sessionId}`);
 
-  MadridEMTSkill(callback, buildSpeechletResponse);
+  MadridEMTSkill.welcome(callback, buildSpeechletResponse);
 }
 
 module.exports = {
