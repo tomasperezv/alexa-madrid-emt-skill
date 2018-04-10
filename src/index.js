@@ -1,5 +1,5 @@
 const Core = require('./core');
-const RequestTypes = require('./request-type');
+const RequestType = require('./request-type');
 
 exports.handler = (event, context, callback) => {
   try {
@@ -8,7 +8,7 @@ exports.handler = (event, context, callback) => {
     /**
      * Prevent someone else from configuring a skill that sends requests to this function.
      */
-    if (proces.env.APP_ID && event.session.application.applicationId !== process.env.APP_ID) {
+    if (process.env.APP_ID && event.session.application.applicationId !== process.env.APP_ID) {
       callback('Invalid Application ID');
     }
 
@@ -17,7 +17,7 @@ exports.handler = (event, context, callback) => {
     }
 
     if (event.request.type === RequestType.LAUNCH) {
-      onLaunch(event.request,
+      Core.onLaunch(event.request,
         event.session,
         (sessionAttributes, speechletResponse) => {
           callback(null, Core.buildResponse(sessionAttributes, speechletResponse));
