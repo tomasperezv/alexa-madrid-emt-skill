@@ -58,7 +58,7 @@ module.exports = {
               results = [data.arrives];
             }
           }
-  
+
           speechOutput = parseResults(results, idStop);
           resolve(speechOutput);
         })
