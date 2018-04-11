@@ -2,19 +2,19 @@ const EMT = require('emt-bus')(process.env.EMT_CLIENT_ID, process.env.EMT_KEY);
 const geo = EMT('geo');
 
 /**
- *  * @param {Number} time
- *   */
+ * @param {Number} time
+ */
 const parseTimeLeft = (time) => {
-  if (time < 60) {
-    return `${time} seconds`
-  } else {
-    return `${Math.floor(time/60)} minutes`;
-  }
+ if (time < 60) {
+   return `${time} seconds`
+ } else {
+   return `${Math.floor(time/60)} minutes`;
+ }
 };
 
 /**
- *  * @param {Object} result
- *   */
+ * @param {Object} result
+ */
 const parseBus = (result) => {
   return {
     id: result.lineId,
@@ -22,7 +22,7 @@ const parseBus = (result) => {
   };
 };
 
-const parseResults = (results) => {
+const parseResults = (results, idStop) => {
   if (results.length > 0) {
     const firstBus = parseBus(results[0]);
     if (results.length > 1) {
@@ -32,27 +32,41 @@ const parseResults = (results) => {
       return `Bus ${firstBus.id} arriving in ${firstBus.timeLeft}`;
     }
   } else {
-    return 'There are no incoming buses';
+    return `There are no incoming buses for stop ${idStop}`;
   }
 };
 
 const cardTitle = 'Madrid Public Transport Skill';
-const idStop = '1350';
 
-geo.getArriveStop({ idStop: idStop })
-  .then((data) => {
-    let results = [];
+module.exports = {
+  welcome: (callback) => {
+    const speechOutput = "Welcome to the Madrid's Public Transport skill";
+    callback(speechOutput);
+  },
+  stopTimes: (idStop) => {
 
-    if (data.arrives) {
-      results = data.arrives;
-      if (!data.arrives.length) {
-        results = [data.arrives];
-      }
-    }
-    speechOutput = parseResults(results);
-    console.log(speechOutput);
-  })
-  .catch((data) => {
-    speechOutput = `I am sorry, error fetching bus stop ${idStop} info`;
-    console.log(speechOutput);
-  });
+    return new Promise((resolve) => {
+      let speechOutput = '';
+
+      geo.getArriveStop({ idStop })
+        .then((data) => {
+          let results = [];
+
+          if (data.arrives) {
+            results = data.arrives;
+            if (!data.arrives.length) {
+              results = [data.arrives];
+            }
+          }
+  
+          speechOutput = parseResults(results, idStop);
+          resolve(speechOutput);
+        })
+        .catch((data) => {
+          speechOutput = `I am sorry, error fetching bus stop ${idStop} info`;
+          resolve(speechOutput);
+        });
+    });
+
+  }
+};

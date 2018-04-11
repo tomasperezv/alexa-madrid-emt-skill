@@ -4,6 +4,7 @@
   "description": "Amazon Alexa skill that provides real time information on Madrid's public transportation",
   "main": "./src/index.js",
   "dependencies": {
+    "alexa-app": "^4.2.2",
     "emt-bus": "^1.0.3"
   },
   "devDependencies": {},

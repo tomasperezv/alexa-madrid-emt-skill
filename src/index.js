@@ -1,38 +1,25 @@
-const Core = require('./core');
-const RequestType = require('./request-type');
+const alexa = require('alexa-app');
+const app = new alexa.app('alexa-madrid-emt');
+const MadridEMT = require('./madrid-emt');
 
-exports.handler = (event, context, callback) => {
-  try {
-    console.log(`event.session.application.applicationId=${event.session.application.applicationId}`);
+app.intent('GetNextTimesForStop', {
+  'slots': { 
+    'stop_id': 'AMAZON.NUMBER' 
+  },
+  'utterances': [
+    'buses stop {stop_id}'
+  ]
+},
+  (request, response) => {
+    const stopId = request.slot('stop_id');
 
-    /**
-     * Prevent someone else from configuring a skill that sends requests to this function.
-     */
-    if (process.env.APP_ID && event.session.application.applicationId !== process.env.APP_ID) {
-      callback('Invalid Application ID');
-    }
-
-    if (event.session.new) {
-      Core.onSessionStarted({ requestId: event.request.requestId }, event.session);
-    }
-
-    if (event.request.type === RequestType.LAUNCH) {
-      Core.onLaunch(event.request,
-        event.session,
-        (sessionAttributes, speechletResponse) => {
-          callback(null, Core.buildResponse(sessionAttributes, speechletResponse));
-        });
-    } else if (event.request.type === RequestType.INTENT) {
-      Core.onIntent(event.request,
-        event.session,
-        (sessionAttributes, speechletResponse) => {
-          callback(null, Core.buildResponse(sessionAttributes, speechletResponse));
-        });
-    } else if (event.request.type === RequestType.SESSION_ENDED) {
-      Core.onSessionEnded(event.request, event.session);
-      callback();
-    }
-  } catch (err) {
-    callback(err);
+    return MadridEMT
+      .stopTimes(stopId)
+      .then((result) => {
+        response.say(result);
+      });
   }
-};
+);
+
+// connect the alexa-app to AWS Lambda
+module.exports = app.lambda();
