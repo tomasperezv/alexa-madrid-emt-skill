@@ -1,15 +1,19 @@
 const EMT = require('emt-bus')(process.env.EMT_CLIENT_ID, process.env.EMT_KEY);
+
 const geo = EMT('geo');
 
 /**
  * @param {Number} time
  */
 const parseTimeLeft = (time) => {
- if (time < 60) {
-   return `${time} seconds`
- } else {
-   return `${Math.floor(time/60)} minutes`;
- }
+  let result;
+  if (time < 60) {
+    result = `${time} seconds`;
+  } else {
+    result = `${Math.floor(time / 60)} minutes`;
+  }
+
+  return result;
 };
 
 /**
@@ -23,20 +27,22 @@ const parseBus = (result) => {
 };
 
 const parseResults = (results, idStop) => {
+  let result;
+
   if (results.length > 0) {
     const firstBus = parseBus(results[0]);
     if (results.length > 1) {
       const secondBus = parseBus(results[1]);
-      return `There are ${results.length} buses incoming: ${firstBus.id} in ${firstBus.timeLeft}, ${secondBus.id} in ${secondBus.timeLeft}`;
+      result = `There are ${results.length} buses incoming: ${firstBus.id} in ${firstBus.timeLeft}, ${secondBus.id} in ${secondBus.timeLeft}`;
     } else {
-      return `Bus ${firstBus.id} arriving in ${firstBus.timeLeft}`;
+      result = `Bus ${firstBus.id} arriving in ${firstBus.timeLeft}`;
     }
   } else {
-    return `There are no incoming buses for stop ${idStop}`;
+    result = `There are no incoming buses for stop ${idStop}`;
   }
-};
 
-const cardTitle = 'Madrid Public Transport Skill';
+  return result;
+};
 
 module.exports = {
   welcome: (callback) => {
@@ -44,7 +50,6 @@ module.exports = {
     callback(speechOutput);
   },
   stopTimes: (idStop) => {
-
     return new Promise((resolve) => {
       let speechOutput = '';
 
@@ -62,11 +67,10 @@ module.exports = {
           speechOutput = parseResults(results, idStop);
           resolve(speechOutput);
         })
-        .catch((data) => {
+        .catch(() => {
           speechOutput = `I am sorry, error fetching bus stop ${idStop} info`;
           resolve(speechOutput);
         });
     });
-
   }
 };
