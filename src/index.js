@@ -22,4 +22,4 @@ app.intent('GetNextTimesForStop', {
 );
 
 // connect the alexa-app to AWS Lambda
-module.exports = app.lambda();
+exports.handler = app.lambda();
