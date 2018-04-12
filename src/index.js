@@ -1,15 +1,17 @@
 const alexa = require('alexa-app');
-const app = new alexa.app('alexa-madrid-emt');
+
+const app = new alexa.app('alexa-madrid-emt'); // eslint-disable-line new-cap
 const MadridEMT = require('./madrid-emt');
 
-app.intent('GetNextTimesForStop', {
-  'slots': { 
-    'stop_id': 'AMAZON.NUMBER' 
+app.intent(
+  'GetNextTimesForStop', {
+    slots: {
+      stop_id: 'AMAZON.NUMBER'
+    },
+    utterances: [
+      'buses stop {stop_id}'
+    ]
   },
-  'utterances': [
-    'buses stop {stop_id}'
-  ]
-},
   (request, response) => {
     const stopId = request.slot('stop_id');
 
