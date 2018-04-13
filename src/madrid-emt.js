@@ -26,17 +26,21 @@ const parseBus = (result) => {
   };
 };
 
+/**
+ * @param {Array} results
+ */
+const formatResult = (results) => {
+  return results.map((result) => {
+    const busInfo = parseBus(result);
+    return `${busInfo.id} in ${busInfo.timeLeft}`;
+  }).join(', ');
+};
+
 const parseResults = (results, idStop) => {
   let result;
 
   if (results.length > 0) {
-    const firstBus = parseBus(results[0]);
-    if (results.length > 1) {
-      const secondBus = parseBus(results[1]);
-      result = `There are ${results.length} buses incoming: ${firstBus.id} in ${firstBus.timeLeft}, ${secondBus.id} in ${secondBus.timeLeft}`;
-    } else {
-      result = `Bus ${firstBus.id} arriving in ${firstBus.timeLeft}`;
-    }
+    result = `There are ${results.length} incoming ${results.length > 1 ? 'buses' : 'bus' }, ${formatResult(results)}`;
   } else {
     result = `There are no incoming buses for stop ${idStop}`;
   }
