@@ -28,9 +28,9 @@ app.intent(
   }
 );
 
-// connect the alexa-app to AWS Lambda
 if (process.env.APP_DEV) {
   module.exports = app;
 } else {
+  // connect the alexa-app to AWS Lambda
   exports.handler = app.lambda();
 }
