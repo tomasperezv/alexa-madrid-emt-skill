@@ -33,7 +33,7 @@ const formatResult = (results) => {
   return results.map((result) => {
     const busInfo = parseBus(result);
     return `${busInfo.id} in ${busInfo.timeLeft}`;
-  }).join(', ');
+  }).slice(0, 10).join(', ');
 };
 
 const parseResults = (results, idStop) => {
