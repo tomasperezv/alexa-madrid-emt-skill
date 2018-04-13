@@ -4,8 +4,20 @@ Amazon Alexa skill that provides real time information on Madrid's public transp
 
 ## Usage
 
+### Launch
+
+``` 
+Alexa open Madrid Transport 
 ```
-Alexa ask Madrid transport next times for stop {STOP_NUMBER}
+
+### Incoming buses for a bus stop
+
+You will need to know the stop identifier that each bus stop has
+
+```
+incoming buses at stop {stop_id}
+next buses at stop {stop_id}
+bus stop {stop_id}
 ```
 
 ## Data Source
