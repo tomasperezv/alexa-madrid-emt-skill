@@ -29,6 +29,14 @@ app.intent(
 );
 
 app.intent(
+  'AMAZON.HelpIntent', {},
+  (request, response) => {
+    const prompt = 'Please, tell me a bus stop number. For instance 70';
+    response.say(prompt).shouldEndSession(false);
+  },
+);
+
+app.intent(
   'AMAZON.CancelIntent', {},
   (request, response) => {
     const prompt = 'Goodbye';
