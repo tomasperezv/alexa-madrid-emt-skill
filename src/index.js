@@ -28,6 +28,14 @@ app.intent(
   },
 );
 
+app.intent(
+  'AMAZON.CancelIntent', {},
+  (request, response) => {
+    const prompt = 'Goodbye';
+    response.say(prompt).shouldEndSession(true);
+  },
+);
+
 if (process.env.APP_DEV) {
   module.exports = app;
 } else {
