@@ -40,7 +40,7 @@ const parseResults = (results, idStop) => {
   let result;
 
   if (results.length > 0) {
-    const partialResults = results.filter(bus => bus.busTimeLeft > 10).slice(0, 5);
+    const partialResults = results.filter(bus => bus.busTimeLeft > 10 && bus.busTimeLeft < 1000).slice(0, 5);
     result = `There are ${partialResults.length} incoming ${partialResults.length > 1 ? 'buses' : 'bus'}, ${formatResult(partialResults)}`;
   } else {
     result = `There are no incoming buses for stop ${idStop}`;
