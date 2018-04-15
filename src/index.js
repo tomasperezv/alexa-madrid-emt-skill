@@ -11,11 +11,11 @@ app.launch((request, response) => {
 app.intent(
   'GetNextTimesForStop', {
     slots: {
-      stop_id: 'AMAZON.NUMBER'
+      stop_id: 'AMAZON.NUMBER',
     },
     utterances: [
-      'buses stop {stop_id}'
-    ]
+      'buses stop {stop_id}',
+    ],
   },
   (request, response) => {
     const stopId = request.slot('stop_id');
@@ -25,7 +25,7 @@ app.intent(
       .then((result) => {
         response.say(result);
       });
-  }
+  },
 );
 
 if (process.env.APP_DEV) {
