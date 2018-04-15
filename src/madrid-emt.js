@@ -22,7 +22,7 @@ const parseTimeLeft = (time) => {
 const parseBus = (result) => {
   return {
     id: result.lineId,
-    timeLeft: parseTimeLeft(result.busTimeLeft)
+    timeLeft: parseTimeLeft(result.busTimeLeft),
   };
 };
 
@@ -32,15 +32,16 @@ const parseBus = (result) => {
 const formatResult = (results) => {
   return results.map((result) => {
     const busInfo = parseBus(result);
-    return `${busInfo.id} in ${busInfo.timeLeft}`;
-  }).slice(0, 10).join(', ');
+    return `line ${busInfo.id} in ${busInfo.timeLeft}`;
+  }).join(', ');
 };
 
 const parseResults = (results, idStop) => {
   let result;
 
   if (results.length > 0) {
-    result = `There are ${results.length} incoming ${results.length > 1 ? 'buses' : 'bus' }, ${formatResult(results)}`;
+    const partialResults = results.filter(bus => bus.busTimeLeft > 10).slice(0, 5);
+    result = `There are ${partialResults.length} incoming ${partialResults.length > 1 ? 'buses' : 'bus'}, ${formatResult(partialResults)}`;
   } else {
     result = `There are no incoming buses for stop ${idStop}`;
   }
@@ -76,5 +77,5 @@ module.exports = {
           resolve(speechOutput);
         });
     });
-  }
+  },
 };
