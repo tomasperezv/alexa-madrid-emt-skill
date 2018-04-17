@@ -20,11 +20,16 @@ app.intent(
   (request, response) => {
     const stopId = request.slot('stop_id');
 
-    return MadridEMT
-      .stopTimes(stopId)
-      .then((result) => {
-        response.say(result);
-      });
+    if (Number.isInteger(stopId)) {
+      return MadridEMT
+        .stopTimes(stopId)
+        .then((result) => {
+          response.say(result);
+        });
+    } else { // eslint-disable-line no-else-return
+      const prompt = 'Please, tell me a bus stop number. For instance 70';
+      response.say(prompt).shouldEndSession(false);
+    }
   },
 );
 
