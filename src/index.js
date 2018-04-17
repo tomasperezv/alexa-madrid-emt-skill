@@ -37,6 +37,14 @@ app.intent(
 );
 
 app.intent(
+  'AMAZON.StopIntent', {},
+  (request, response) => {
+    const prompt = 'Goodbye';
+    response.say(prompt).shouldEndSession(true);
+  },
+);
+
+app.intent(
   'AMAZON.CancelIntent', {},
   (request, response) => {
     const prompt = 'Goodbye';
