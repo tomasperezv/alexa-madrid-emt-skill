@@ -20,7 +20,7 @@ app.intent(
   (request, response) => {
     const stopId = request.slot('stop_id');
 
-    if (Number.isInteger(stopId)) {
+    if (Number.isInteger(parseInt(stopId, 10))) {
       return MadridEMT
         .stopTimes(stopId)
         .then((result) => {
