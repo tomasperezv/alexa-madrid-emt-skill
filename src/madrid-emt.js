@@ -22,7 +22,7 @@ const parseTimeLeft = (time) => {
 const parseBus = (result) => {
   return {
     id: result.lineId,
-    timeLeft: parseTimeLeft(result.busTimeLeft),
+    timeLeft: parseTimeLeft(result.busTimeLeft)
   };
 };
 
@@ -80,5 +80,5 @@ module.exports = {
           resolve(speechOutput);
         });
     });
-  },
+  }
 };
