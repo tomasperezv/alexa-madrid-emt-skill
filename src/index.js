@@ -9,13 +9,27 @@ app.launch((request, response) => {
 });
 
 app.intent(
+  'GetNextTimesForAddress', {
+    utterances: [
+      'buses'
+    ]
+  },
+  (request, response) => {
+    response.card({
+      type: 'AskForPermissionsConsent',
+      permissions: ['read::alexa:device:all:address']
+    });
+  },
+);
+
+app.intent(
   'GetNextTimesForStop', {
     slots: {
-      stop_id: 'AMAZON.NUMBER',
+      stop_id: 'AMAZON.NUMBER'
     },
     utterances: [
-      'buses stop {stop_id}',
-    ],
+      'buses stop {stop_id}'
+    ]
   },
   (request, response) => {
     const stopId = request.slot('stop_id');
